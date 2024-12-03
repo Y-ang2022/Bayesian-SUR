@@ -15,7 +15,7 @@ prnorm <- function(mu,A,n,p) {
   return(w)
 }
 
-NN=10#  repeat 100 times
+NN=100#  repeat 100 times
 Dcov11=Dcov12=Dcov13=Dcov14=Dcov15=Dcov16=Dcov17=Dcov18=Dcov19=Dcov110=Dcov111=Dcov112=Dcov113=Dcov114=Dcov115=0
 Dcov21=Dcov22=Dcov23=Dcov24=Dcov25=Dcov26=Dcov27=Dcov28=Dcov29=Dcov210=Dcov211=Dcov212=Dcov213=Dcov214=Dcov215=Dcov216=0
 
