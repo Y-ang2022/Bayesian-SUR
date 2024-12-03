@@ -55,12 +55,12 @@ eigen_vectors2 <- eigen_decomp2$vectors
 orthogonal_matrix2 <- centered_matrix2 %*% eigen_vectors1
 # 归一化
 X_2 <- sweep(orthogonal_matrix2, 2, sqrt(eigen_values2), FUN="/")
-B1 <- c(c(3,3,3),rep(0, p-3)) 
-B2 <- c(c(-3,-3,-3),rep(0, p-3))
 #B1 <- c(c(0.3,0.5,0.7),rep(0, p-3)) 
 #B2 <- c(c(0.2,0.4,0.6),rep(0, p-3))
-#B1 <- c(c(3,5,7),rep(0, p-3)) 
-#B2 <- c(c(2,4,6),rep(0, p-3))
+B1 <- c(c(3,5,7),rep(0, p-3)) 
+B2 <- c(c(2,4,6),rep(0, p-3))
+#B1 <- c(c(3,3,3),rep(0, p-3)) 
+#B2 <- c(c(-3,-3,-3),rep(0, p-3))
 SS <-matrix(c(1,0.8,0.8,1),2,2)
 er <- prnorm(rep(0,len=2),SS,n,2)
 Y_1 <- X_1%*%B1+er[,1]
@@ -109,7 +109,7 @@ print(runningtime)
 apply(DMC_b1,2,mean)
 apply(DMC_b2,2,mean)
 
-
+#######################################
 ## Lasso SUR method：
 updateBeta1<-function(Y_1,X_1,Sig_1_2,
                       Lambda_1)
@@ -167,7 +167,6 @@ a.post=a2*(length(Beta2)+2-1)-1
 b.post=s2*(length(Beta2)+2-1)+s/2
 return(rgamma(1,a.post,b.post))
 }
-#####逆高斯了!!!!
 updatelambda1<-function(Beta1,lambda01,Sig_1_2)
 {  
   a.post=sqrt(lambda01*Sig_1_2)/sqrt(Beta1*Beta1)
@@ -225,10 +224,8 @@ for(i in 2:Niter){
   Lambda02.out[i]<-updatelambda02(a2,s2,Beta2.out[i,],
                                   Lambda2.out[i-1,])
   
-  #print(Tau.out[i])
   Lambda1.out[i,]<-updatelambda1(Beta1.out[i,],
                                  Lambda01.out[i],Sig1.out[i])
-  #print( Lambda1.out[i,])
   Lambda2.out[i,]<-updatelambda2(Beta2.out[i,],
                                  Lambda02.out[i],
                                  Sig2.out[i])
@@ -239,7 +236,7 @@ Nburn <- 4000
 b1 <- Beta1.out[-(1:Nburn),]
 b2 <- Beta2.out[-(1:Nburn),]
 ###############################
-##HSUR  method：
+############# HSUR  method：
 updateBeta1 <- function(Y_1,X_1,Sig_1_2,
                         Tau_1, kapp_1)
 {
@@ -539,7 +536,7 @@ xi2.out[1]<-1
 a1=a2=1
 s1=s2=1.78
 
-##方法3  Gibbs sampler for LHSUR
+##   Gibbs sampler for LHSUR
 for(i in 2:Niter){
   Beta1.out[i,] <- updateBeta1(Y_1,X_1,Sig1.out[i-1],
                                Lambda1.out[i-1,])
@@ -612,8 +609,6 @@ HCIb1;
 HCIb2
 LHCIb1;
 LHCIb2
-
-
 
 ###############MSE
 NS=Niter-Nburn
@@ -719,7 +714,7 @@ print(matrix(c(sum(DMC_MSE1),sum(sd_DMC1),
                L_MSE2[1+p],sd_L2[1+p],
                H_MSE2[1+p],sd_H2[1+p],
                LH_MSE2[1+p],sd_LH2[1+p]),12,2,2))
-#sum
+########### MSE(b)
 sum(DMC_MSE1)+sum(DMC_MSE2);sum(L_MSE1)+sum(L_MSE2);sum(H_MSE1)+sum(H_MSE2);sum(LH_MSE1)+sum(LH_MSE2);
 
 
